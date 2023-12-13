@@ -1,0 +1,12 @@
+[submodule "PlaygroundJava"]
+	path = PlaygroundJava
+	url = https://github.com/AlbertSnows/PlaygroundJava
+[submodule "PlaygroundCpp"]
+	path = PlaygroundCpp
+	url = https://github.com/AlbertSnows/PlaygroundCpp
+[submodule "PlaygroundCsharp"]
+	path = PlaygroundCsharp
+	url = https://github.com/AlbertSnows/PlaygroundCsharp
+[submodule "PlaygroundClojure"]
+	path = PlaygroundClojure
+	url = https://github.com/AlbertSnows/PlaygroundClojure
