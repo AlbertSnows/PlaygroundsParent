@@ -13,6 +13,25 @@
 #include "shared_interest.h"
 using namespace std;
 
+template <class T>
+inline void hash_combine(size_t& seed, const T& v)
+{
+	hash<T> hasher;
+	seed ^= hasher(v) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
+}
+
+template <>
+struct hash<pair<int, int>>
+{
+	size_t operator()(const pair<int,int>& k) const
+	{
+		hash<int> hasher;
+		size_t hashed_first = hasher(k.first);
+		hash_combine(hashed_first, k.second);
+		return hashed_first;
+	}
+};
+
 void si_entry() {
 	vector<tuple<int, int, int>> list_of_left_right_weight_friendship = {
 		make_tuple(1, 2, 2),
@@ -48,50 +67,56 @@ void si_entry() {
 			}
 			return weight_to_nodes;
 		});
-	auto coord_to_max_weight = unordered_map<pair<int, int>, int>{};
+	auto coord_to_number_of_shared_interests = unordered_map<pair<int, int>, int>{};
 	for (auto weight_with_nodes : weight_to_nodes) {
 		auto weight = weight_with_nodes.first;
 		auto coords = weight_with_nodes.second;
 		for (auto x : coords) {
 			for (auto y : coords) {
+				if (x == y) {
+					break;
+				}
 				auto left_pair = 
 					//to_string(x) + "," + to_string(y); 
-					 make_pair(x, y);
+					 make_pair(x, y)
+					;
 				auto right_pair = 
 					// to_string(y) + "," + to_string(x); 
 					  make_pair(y, x);
-				auto left_pair_exists = coord_to_max_weight.find(left_pair) != coord_to_max_weight.end();
+				auto left_pair_exists = coord_to_number_of_shared_interests.find(left_pair) != coord_to_number_of_shared_interests.end();
 				if (left_pair_exists) {
-					coord_to_max_weight[left_pair] += weight;
+					coord_to_number_of_shared_interests[left_pair] += 1;
 				}
 				else {
-					coord_to_max_weight[left_pair] = weight;
+					coord_to_number_of_shared_interests[left_pair] = 1;
 				}
-				auto right_pair_exists = coord_to_max_weight.find(right_pair) != coord_to_max_weight.end();
+				auto right_pair_exists = coord_to_number_of_shared_interests.find(right_pair) != coord_to_number_of_shared_interests.end();
 				if (right_pair_exists) {
-					coord_to_max_weight[right_pair] += weight;
+					coord_to_number_of_shared_interests[right_pair] += 1;
 				}
 				else {
-					coord_to_max_weight[right_pair] = weight;
+					coord_to_number_of_shared_interests[right_pair] = 1;
 				}
 			}
 		}
 	}
-	auto max_weight_possible = accumulate(coord_to_max_weight.begin(), coord_to_max_weight.end(), 0, 
+	auto max_weight_possible = accumulate(coord_to_number_of_shared_interests.begin(), coord_to_number_of_shared_interests.end(), 0,
 		[](auto max_weight, auto pair) {
 		return max(max_weight, pair.second);
 		});
-	//auto coords_with_max_weight_possible = unordered_map<string, int>{};
-	//for (auto pair : coord_to_max_weight) {
-	//	if (pair.second == max_weight_possible) {
-	//		coords_with_max_weight_possible.emplace(pair);
-	//	}
-	//}
-	//auto max_friend_score = 0;
-	//for (auto pair : coords_with_max_weight_possible) {
-	//	max_friend_score = max(max_friend_score, pair.first.first + pair.first.second);
-	//}
-	//cout << max_friend_score << endl;
-	// 
+	auto coords_with_max_weight_possible = unordered_map<pair<int, int>, int>{};
+	for (auto pair : coord_to_number_of_shared_interests) {
+		if (pair.second == max_weight_possible) {
+			coords_with_max_weight_possible.emplace(pair);
+		}
+	}
+	auto max_friend_score = 0;
+	for (auto pair : coords_with_max_weight_possible) {
+		auto x = pair.first.first;
+		auto y = pair.first.second;
+		max_friend_score = max(max_friend_score, x * y);
+	}
+	cout << max_friend_score << endl;
+	 
 	//return max_friend_score;
 }

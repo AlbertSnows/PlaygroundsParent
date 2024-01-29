@@ -3,12 +3,13 @@
 
 #include <iostream>
 //#include "preprocess_data.h"
-#include "shared_interest.h";
+//#include "shared_interest.h";
+#include "permutations.h"
 
 int main()
 {
     std::cout << "Hello World!\n";
-    si_entry();
+    perm_entry();
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu

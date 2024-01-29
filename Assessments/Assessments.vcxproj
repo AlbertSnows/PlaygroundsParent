@@ -128,6 +128,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Assessments.cpp" />
+    <ClCompile Include="permutations.cpp" />
+    <ClCompile Include="permutations.h" />
     <ClCompile Include="preprocess_data.cpp" />
     <ClCompile Include="shared_interest.cpp" />
   </ItemGroup>

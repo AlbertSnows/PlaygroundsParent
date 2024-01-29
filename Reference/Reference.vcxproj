@@ -127,6 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Collections.cpp" />
     <ClCompile Include="Example.cpp" />
     <ClCompile Include="Reference.cpp" />
     <ClCompile Include="StandardInput.cpp" />
