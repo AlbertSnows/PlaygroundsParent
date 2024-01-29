@@ -1,2 +1,2 @@
 #pragma once
-void entry();
+void si_entry();

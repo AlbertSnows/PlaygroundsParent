@@ -1,3 +1,3 @@
 #pragma once
 
-void entry();
+void ppd_entry();

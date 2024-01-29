@@ -8,7 +8,7 @@
 int main()
 {
     std::cout << "Hello World!\n";
-    entry();
+    si_entry();
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu

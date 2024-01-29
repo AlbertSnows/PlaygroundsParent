@@ -54,7 +54,7 @@ string parse_day(string unp_day) {
 	}
 }
 
-void entry() {
+void ppd_entry() {
 	vector<string> lines = {
 		"20th Oct 2052",
 		"6th Jun 1933",
