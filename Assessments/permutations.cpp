@@ -35,7 +35,7 @@ using namespace std;
 //	}
 //};
 
-string stringify_vector_ints(vector<int> list) {
+static string stringify_vector_ints(vector<int> list) {
 	ostringstream oss;
 	for (const auto& num : list) {
 		oss << num;
@@ -44,7 +44,7 @@ string stringify_vector_ints(vector<int> list) {
 	return set_as_string;
 }
 
-vector<int> range(const int& end, const int& start = 0, const int& step_size = 1) {
+static vector<int> range(const int& end, const int& start = 0, const int& step_size = 1) {
 	int slots_needed = (end - start + step_size - 1) / step_size;
 	auto list = vector<int>(slots_needed);
 	iota(list.begin(), list.end(), start);
@@ -64,20 +64,21 @@ void perm_entry() {
 	shuffle(from_to_next.begin(), from_to_next.end(), g);
 	auto original_set = stringify_vector_ints(original_vector);
 	auto counter = 1;
-	auto min_cycles = 1;
-	auto tried_sets = unordered_set<string>{ };
-	auto max_possible_size = tgamma(from_to_next.size());
+	auto min_cycles = numeric_limits<int>::max();
+	auto tried_sets = unordered_set<string>{ stringify_vector_ints(original_vector) };
+	int max_possible_size = tgamma(from_to_next.size() + 1);
 	auto found_input = false;
 	auto exhausted_permutations = false;
 	auto found_cycle = true;
 	auto permuted_set = original_vector;
+	auto found_sets = unordered_set<string>{ };
 	while (!exhausted_permutations) {
 		found_input = true;
 		if (found_cycle) {
 			next_permutation(permuted_set.begin(), permuted_set.end());
+			tried_sets.insert(stringify_vector_ints(permuted_set));
 			found_cycle = false;
 		}
-		auto found_sets = unordered_set<string>{ stringify_vector_ints(permuted_set) };
 		auto next_slot_to_overridden_value = unordered_map<int, int>{};
 		for (auto slot_to_take_from : range(from_to_next.size())) {
 			auto next_slot_location = from_to_next[slot_to_take_from];
@@ -94,27 +95,30 @@ void perm_entry() {
 			}
 		}
 
-		exhausted_permutations = tried_sets.size() == max_possible_size;
+		exhausted_permutations = tried_sets.size() >= max_possible_size;
 		auto set_as_string = stringify_vector_ints(permuted_set);
 		found_input = set_as_string == original_set;
 		found_cycle = found_sets.find(set_as_string) != found_sets.end();
-		// if found input, break everything
-		// elif found cycle, add all of found set to tried sets and generate a new permutation
-		// else no input and still iterating, so add current value to found set and continue
 		auto currently_cycling = !found_input && !exhausted_permutations && !found_cycle;
-		
+		counter++;
 		if (currently_cycling) {
 			found_sets.insert(set_as_string);
-		} else if (found_cycle) {
+		}
+		else if (found_input) {
+			min_cycles = min(min_cycles, counter + 1);
+			counter = 0;
+		}
+		else if (found_cycle) {
 			for (auto set : found_sets) {
 				tried_sets.insert(set);
 			}
-		}
-		if (found_cycle) {
-			min_cycles = min(min, counter + 1);
+			found_sets = unordered_set<string>{};
 			counter = 0;
 		}
+		else {
+			min_cycles = min(min_cycles, counter + 1);
+		}
+		
 	}
 	cout << min_cycles << endl;
-
 }
