@@ -10,3 +10,6 @@
 [submodule "PlaygroundClojure"]
 	path = PlaygroundClojure
 	url = https://github.com/AlbertSnows/PlaygroundClojure
+[submodule "PlaygroundJS"]
+	path = PlaygroundJS
+	url = https://github.com/AlbertSnows/PlaygroundJS
