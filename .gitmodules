@@ -13,3 +13,6 @@
 [submodule "PlaygroundJS"]
 	path = PlaygroundJS
 	url = https://github.com/AlbertSnows/PlaygroundJS
+[submodule "PythonPlayground"]
+	path = PythonPlayground
+	url = https://github.com/AlbertSnows/PythonPlayground
