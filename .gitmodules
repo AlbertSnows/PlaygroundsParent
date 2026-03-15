@@ -16,3 +16,6 @@
 [submodule "PythonPlayground"]
 	path = PythonPlayground
 	url = https://github.com/AlbertSnows/PythonPlayground
+[submodule "rust_playground"]
+	path = rust_playground
+	url = https://github.com/AlbertSnows/rust_playground
